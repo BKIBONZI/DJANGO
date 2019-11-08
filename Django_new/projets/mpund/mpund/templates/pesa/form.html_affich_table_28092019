@@ -1,0 +1,24 @@
+{% extends "pesa/base.html" %}
+
+{% block content %}
+<h2> Affichage :</h2> <br>
+
+	{%for n in aff_arvc %}
+		{{n.dater}}
+		{{":"}}
+		{{n.numr}}
+		{{":"}}
+		{{n.numc}}
+		{{":"}}
+		{{n.nbptsc}}
+		{{":"}}
+		{{n.arv1c}}
+		{{"-"}}
+		{{n.arv2c}}	
+		{{"-"}}
+		{{n.arv3c}}
+		{{"-"}}
+		{{n.arv4c}}	
+		<br>
+	{% endfor %}
+{% endblock %}

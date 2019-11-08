@@ -1,0 +1,117 @@
+from django.shortcuts import render, render_to_response
+from django.http import HttpResponse,Http404
+from pesa.forms import ContactForm, SaisiesArvForm, MyForm, ArticleForm, ArriveescForm
+from pesa.models import Articleocr1, Categorieocr1, Arriveesc
+
+# Create your views here.
+
+def pesa_accueil(request):
+    return HttpResponse("hello World")
+
+#def presentation(request) :
+ #   return render(request, "pesa/tpl_accueil.html")
+
+def saisie_arv(request) :
+    return render(request, "pesa/tpl_saisie_arv.html")
+
+
+
+def contact(request) :
+    if request.method == 'POST' : # S'il s'agait d'une requete de type POST
+       form = ContactForm(request.POST)    # Nous reprenons les donnees
+
+       if form.is_valid() : # Nous verifions que les donnees envoyees sont valides 
+
+            #Ici nous pouvons traiter les donnees du formulaire 
+            sujet = form.cleaned_data['sujet']
+            message = form.cleaned_data['message']
+            envoyeur = form.cleaned_data['envoyeur']
+            renvoi = form.cleaned_data['renvoi']
+
+            # Nous pourrions ici envoyer l'email grâce aux donnees que nous venons de recuperer 
+
+            envoi = True
+
+    else: # Si ce n'est pas du POST, c'est probablement une requete GET
+        form = ContactForm()  # Nous creons un formulaire vide 
+
+    return render(request, 'pesa/tpl_contact.html', locals())
+
+
+def articlespage(request):
+    return render(request, 'pesa/home.html')
+
+def successpage(request):
+    data = request.POST.get('textbox1')
+
+    context = {'data':data}
+    return render(request, 'pesa/successpage.html',context)
+
+
+def saisiesarv(request) :
+    if request.method == 'POST' :
+        formsaisiesarv =SaisieAarvForm(request.POST)
+
+        if formsaisiesarv.is_valid() :
+            envoi = True 
+    else:
+       formsaisiesarv = SaisiesArvForm()
+
+    return render(request, 'pesa/form.html', {'form':formsaisiesarv})
+
+
+def withform(request):
+    if (request.method == 'POST'):
+         form = MyForm(request.POST)
+         if form.is_valid():
+             return HttpResponse("You currently filled the form !\n You're %s and your email is %s"
+                        %(form.cleaned_data['name'], form.cleaned_data['email']))
+
+    else:
+        form = MyForm()
+    return render(request, "pesa/form.html", {'form' : form})
+
+def formodel(request):
+    if (request.method == 'POST'):
+        form = ArticleForm(request.POST)
+    else:
+       form = ArticleForm()
+    return render(request, "pesa/form.html", {'form' : form})
+
+
+def saisiearvformodel(request):
+    if (request.method == 'POST'):
+        form = ArriveescForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+       form = ArriveescForm()
+    return render(request, "pesa/form.html", {'form' : form})
+
+
+def accueilocr1(request):
+    """Afficher tous les artiles de """
+    articles = Articleocr1.objects.all() # Nous selectionnons tous nos articles 
+    return render(request, "pesa/accueilocr1.html", {'derniers_articles': articles})
+
+#def lire(request, id):
+#    """Afficher un article complet """
+#    pass # Le code de cette fonction est donné un peu plus loin.
+
+def lire(request, id):
+    try:
+        article = Articleocr1.objects.get(id=id)
+    except Article.DoesNotExist:
+        raise Http404
+
+    return render(request, 'pesa/lire.html',{'article' : article})
+
+
+def aff_Arriveesc(request):
+    aff_Arvc = Arriveesc.objects.all()
+    for curs_aff_Arvc in aff_Arvc :
+        print(curs_aff_Arvc.arv1c)
+    return render_to_response("pesa/form.html",{'aff_arvc' : aff_Arvc})
+
+
+

@@ -1,0 +1,27 @@
+
+from django.contrib import admin
+from .views import articlespage, successpage
+from django.urls import path
+from django.conf.urls import url
+
+from .import views 
+
+app_name = 'pesa'
+
+urlpatterns = [
+        url('^$',views.pesa_accueil),
+        #url('presentation',views.presentation),
+        #url('saisiearrivees',views.saisie_arv),
+#        url(r'^$',views.contact,name='contact'),
+#        url(r'^$',views.articlespage,name='homepage'),
+        url(r'^success$',views.successpage,name='successpage'),
+        url('saisiesarv',views.saisiesarv),
+        url('myform',views.withform),
+        url('article',views.formodel),
+        url('arriveesc',views.saisiearvformodel),
+#        path('', views.accueilocr1, name='accueilocr1'),
+     #   url(r'^$', views.accueilocr1, name='accueilocr1'),
+        path('article/<int:id>', views.lire, name='lire'),
+#        url('^$', views.accueilocr1, name='accueilocr1'),
+        url('affarvc',views.aff_Arriveesc),
+]

@@ -1,0 +1,87 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from pesa.forms import ContactForm, SaisiesArvForm, MyForm, ArticleForm, ArriveescForm
+
+# Create your views here.
+
+def pesa_accueil(request):
+    return HttpResponse("hello World")
+
+#def presentation(request) :
+ #   return render(request, "pesa/tpl_accueil.html")
+
+def saisie_arv(request) :
+    return render(request, "pesa/tpl_saisie_arv.html")
+
+
+
+def contact(request) :
+    if request.method == 'POST' : # S'il s'agait d'une requete de type POST
+       form = ContactForm(request.POST)    # Nous reprenons les donnees
+
+       if form.is_valid() : # Nous verifions que les donnees envoyees sont valides 
+
+            #Ici nous pouvons traiter les donnees du formulaire 
+            sujet = form.cleaned_data['sujet']
+            message = form.cleaned_data['message']
+            envoyeur = form.cleaned_data['envoyeur']
+            renvoi = form.cleaned_data['renvoi']
+
+            # Nous pourrions ici envoyer l'email grâce aux donnees que nous venons de recuperer 
+
+            envoi = True
+
+    else: # Si ce n'est pas du POST, c'est probablement une requete GET
+        form = ContactForm()  # Nous creons un formulaire vide 
+
+    return render(request, 'pesa/tpl_contact.html', locals())
+
+
+def articlespage(request):
+    return render(request, 'pesa/home.html')
+
+def successpage(request):
+    data = request.POST.get('textbox1')
+
+    context = {'data':data}
+    return render(request, 'pesa/successpage.html',context)
+
+
+def saisiesarv(request) :
+    if request.method == 'POST' :
+        formsaisiesarv =SaisieAarvForm(request.POST)
+
+        if formsaisiesarv.is_valid() :
+            envoi = True 
+    else:
+       formsaisiesarv = SaisiesArvForm()
+
+    return render(request, 'pesa/form.html', {'form':formsaisiesarv})
+
+
+def withform(request):
+    if (request.method == 'POST'):
+         form = MyForm(request.POST)
+         if form.is_valid():
+             return HttpResponse("You currently filled the form !\n You're %s and your email is %s"
+                        %(form.cleaned_data['name'], form.cleaned_data['email']))
+
+    else:
+        form = MyForm()
+    return render(request, "pesa/form.html", {'form' : form})
+
+def formodel(request):
+    if (request.method == 'POST'):
+        form = ArticleForm(request.POST)
+    else:
+       form = ArticleForm()
+    return render(request, "pesa/form.html", {'form' : form})
+
+
+def saisiearvformodel(request):
+    if (request.method == 'POST'):
+        form = ArriveescForm(request.POST)
+    else:
+       form = ArriveescForm()
+    return render(request, "pesa/form.html", {'form' : form})
+

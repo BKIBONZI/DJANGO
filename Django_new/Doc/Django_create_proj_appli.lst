@@ -1,0 +1,172 @@
+Etape 1 : CREER LE REPERTOIRE PHYSIQUE DU NOUVEAU PROJET 
+
+
+Etape 2 : CREER L' ENVIRONNEMENT VIRTUEL POUR LE NOUVEAU PROJET
+
+
+
+Etage 3 : SE CONNECTER A L'ENVIRONNNEMENT VIRTUEL DU NOUVEAU PROJET 
+
+
+
+Etage 4 : CREER LE NOUVEAU PROJET 
+
+
+	4.2 : DEMARRER LE SERVEUR WEB DE DJANGO 
+			
+			NB : On lance de le serveur WEB de Django pour un projet DJANGO donné. Il faut donc que ke projet existe existe sinon le crée (voir étape ci-dessus).  
+			- Le serveur WEB de DJANGO se lance avec la commande "manage.py" qui est un executable python qui se trouve à la racine du repertoire physique du projet.
+				cet exécutable "manage.py" est crée et placé automatiquement à cet endroit lors de l'installation du logiciel DJANGO dans l'environnement virtuel du projet.
+				 	
+					- A partir du repertoire physique du projet, exécuter la commande suivante :
+							$ ./manage.py runserver 
+
+							NB : Si l'execution de cette commande se passe correctement, on obtient à l'ecran le message suivant :
+							
+							======================================================================================================================================================
+							(mpund) (base) ➜  mpund ./manage.py runserver
+							Watching for file changes with StatReloader
+							Performing system checks...
+
+							System check identified no issues (0 silenced).
+
+							You have 17 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+							Run 'python manage.py migrate' to apply them.
+
+							August 22, 2019 - 13:43:06
+							Django version 2.2.4, using settings 'mpund.settings'
+							Starting development server at http://127.0.0.1:8000/
+							Quit the server with CONTROL-C.
+							=====================================================================================================================================================
+
+				 	Cela signifie que le server WEB de DJANGO est démarre ! Et le message ci dessus indique l'adresse (URL) à laquelle le server est demarre (ligne Starting development server  at) !
+					ainsi que le port d'ecoute. 
+
+						exemple dans l'affichage ecran ci-dessus : http://127.0.0.1:8000/
+							ici l'adresse (URL) du serveur web est : http://127.0.0.1
+							et son port d'écoute : 8000 (les deux sont séparés par :)
+
+							=> Test d'affichage d'une page web. 
+								Avec un server web demarre on peut tester l'affichage d'une page web. 
+								Il suffit pour cela de lancer (ouvrir) un navigateur WEB (Firefox, Internet explorer, Google chrome) et de rentrer l'adresse à laquelle se trouve le serveur WEB est démarré. 
+
+								A ce stade,  on doit voir apparaitre à l'écran dans le navigateur le message de félicitations de Django. "The install worked successfully ! Congratulations"
+
+
+ETAPE 5    : CRÉATION D'UNE NOUVELLE APPLCATION  
+
+			NB : Une application fait partie d'un projet. Donc pour creer une application, il faut d'abord que le projet existe sinon le creer (voir etape ci-dessus)
+			- Tout comme le lancement du server WEB de DJANGO, la creation d'une nouvelle application se fait grace la commade "manage.py" qui est se trouve à la racine du repertoire physique du projet auquel
+				est rattaché l'application.
+
+				=> Pour creer une application il faut lancer la commande suite depuis la racine du  répertoire physique du projet.
+					$ ./manage.py startapp nom_appli
+					
+					où : "manage.py" est la commande proprement dit, "startapp" precise qu'il s'agit d'une application et "nom_appli" c'est le nom que vous avez choisi pour l'application.   
+
+					Si la commande s'execute correctement on verra apparaitre dans ce repertoire un dossier (sous repertoire) portant le même nom de l'application qu'on a demande á creer (nom_app)
+
+					et dans ce dossier (sous repertoire) apparaitront  les fichiers et sous repertoires suivants (dans la copie d'ecran ci-dessous l'application s'appelle "pesa") :
+
+					================================================================================================================
+					(mpund) (base) ➜  mpund cd pesa
+					(mpund) (base) ➜  pesa ls -lrt
+					total 40
+					-rw-r--r--  1 bkibonzi  2018_paris   63 Aug 22 16:40 views.py
+					-rw-r--r--  1 bkibonzi  2018_paris   60 Aug 22 16:40 tests.py
+					-rw-r--r--  1 bkibonzi  2018_paris   57 Aug 22 16:40 models.py
+					drwxr-xr-x  3 bkibonzi  2018_paris  102 Aug 22 16:40 migrations
+					-rw-r--r--  1 bkibonzi  2018_paris   83 Aug 22 16:40 apps.py
+					-rw-r--r--  1 bkibonzi  2018_paris   63 Aug 22 16:40 admin.py
+					-rw-r--r--  1 bkibonzi  2018_paris    0 Aug 22 16:40 __init__.py
+					(mpund) (base) ➜  pesa
+					==============================================================================================================
+
+					(dans la copie d'ecran ci-dessus l'application s'appelle "pesa", on est donc dans le répertoire pesa)
+					
+
+					5.1 - CREATION DU FICHIER URLS.PY DE L'APPLICATION 
+							
+							Toute application DJANGO a besoin d'une fichier nommé "urls.py" qui doit se trouver dans le répertoire de l'application en question.
+
+
+
+
+
+
+
+
+ETAPE 6 : CONNEXION ET CONFIGURATION DE DJANGO A UNE BASE DE DONNEES (OMR) 
+
+			6.1 - INSTALLATION DU MODULE PSYCOPG2
+					
+					
+			 	Pour pouvoir connecter le serveur WEB de DJANGO a une base de donnees il faut prealablement installer le module PSYCOPG2. Il s'agit de la librairie DJANGO
+				qui permet de manipuler es bases de données. 
+
+				L'installation du module "psycopg2" se fait par l'intermediaire de "pip" au moyen de la commande :
+
+				$ pip3 install psycopg2 
+
+				Si la commande s'execute corrrectement on dit voir apparaitre a lécran le resultat suivant : 
+
+				======================================================================================================================================================
+				(mpund) (base) ➜  mpund pip3 install psycopg2
+				Collecting psycopg2
+				  Downloading https://files.pythonhosted.org/packages/5c/1c/6997288da181277a0c29bc39a5f9143ff20b8c99f2a7d059cfb55163e165/psycopg2-2.8.3.tar.gz (377kB)
+				       |████████████████████████████████| 378kB 13.5MB/s
+			   Building wheels for collected packages: psycopg2
+				     Building wheel for psycopg2 (setup.py) ... done
+				     Stored in directory: /Users/bkibonzi/Library/Caches/pip/wheels/48/06/67/475967017d99b988421b87bf7ee5fad0dad789dc349561786b
+			   Successfully built psycopg2
+			   Installing collected packages: psycopg2
+			   Successfully installed psycopg2-2.8.3
+			   WARNING: You are using pip version 19.1.1, however version 19.2.2 is available.
+			   You should consider upgrading via the 'pip install --upgrade pip' command.
+			   (mpund) (base) ➜  mpund
+			   ==========================================================================================================================================================
+		
+		
+		6.2 - CONFIGURATION DU FICHIER "SETTINGS.PY" DU PROJET POUR CONNECTER LE SERVEUR DJANGO A UNE BASE DE DONNEES 	
+		
+			 Le serveur WEB de DJANGO peut fonctionner avec différents types de base de données (Mysql, Postgresql, sqllite, Oracle, etc ...). Cependant, la base de données par 
+			 defaut qui est installée et configurée automatiquement à l'installation  de DJANGO dans l'environnement virtuel d'un projet est SQLLITE. Cette base de données est 
+			 appelée "dbsqlite3" et son fichier de données se trouve a la racine du repertoire physique du projet. 
+			 
+			 Si on souhaite utiliser  une autre base données comme par exemple POSTGRESQL en lieu et place de SQLITE il suffit d'installer séparément POSTGRESQL (le moteur), de 
+			 créer une base de données POSTGRESQL puis de modifier ensuite le parametrage de la base de données dans le fichier "SETTINGS.PY" en remplaçant entre autre SQLITE par
+			 POSTGRESQL. 
+
+			 L'entrée à modifier dans le fichier "settings.py" est l'entree DATABASES. 
+			 Par défaut elle se présente de la façon suivante :
+
+			 ================================================================================
+			  DATABASES = {
+			     'default': {
+			         'ENGINE': 'django.db.backends.sqlite3',
+			         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+			     }
+			 }
+			 =================================================================================
+
+
+			Pour configuer le fichier "settings.py" pour une base de données POSTGRESQL, il faut modifier l'entrée DATABASES de la façon suivante : 
+			avec : 
+			- nom_bdd : le nom de la base de données POSTGRESQL à laquelle vous souhaitez connecter le serveur DJANGO.
+			- nom_user : le nom de l'utilisateur (proprietaire) de la base de données.
+			- password : le mot de passe de l'utilisteur propriétaire de la base de données.
+
+
+			 =================================================================================
+			 DATABASES = {
+			     'default': {
+			         'ENGINE': 'django.db.backends.postgresql',
+			         'NAME': 'nom_bdd',
+			         'USER': 'nom_user',
+			         'PASSWORD' : 'password',
+			         'HOST' : 'localhost',
+			         'PORT' : '5432',
+			     }
+			 } 
+
+			=================================================================================
